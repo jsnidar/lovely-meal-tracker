@@ -3,7 +3,9 @@ import { Card } from 'react-bootstrap';
 import MealIngredientsList from './MealIngredientsList';
 import MealExchanges from './MealExchanges';
 
-const MealCard = ({ meal }) => {
+const MealCard = ({ meal, getExchanges }) => {
+  
+  let exchanges = getExchanges(meal)
   
   const category = () => {
     if (meal.category_id === 1) {
@@ -16,6 +18,7 @@ const MealCard = ({ meal }) => {
       return "Snack"
     }
   }
+
   return (
     <Card>
       <Card.Body>
@@ -30,7 +33,7 @@ const MealCard = ({ meal }) => {
         <MealIngredientsList mealIngredients = {meal.meal_ingredients} />
         <br></br>
         <Card.Subtitle>Exchanges</Card.Subtitle>
-        <MealExchanges mealIngredients = {meal.meal_ingredients} />
+        <MealExchanges exchanges={exchanges} />
       </Card.Body>
     </Card>
   );

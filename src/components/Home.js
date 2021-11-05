@@ -1,22 +1,36 @@
 import React from 'react';
-import { Container, Row, CardGroup } from 'react-bootstrap';
+import { Container, Row, Col, CardGroup, Stack } from 'react-bootstrap';
 import MealCard from './MealCard';
+import MealsSummary from './MealsSummary';
 
-const Home = ({ meals }) => {
+const Home = ({ meals, getExchanges, macros }) => {
 
-  const renderMeals = meals.map((meal) => <MealCard key={meal.id} meal={meal} />)
+  const renderMeals = meals.map((meal) => <MealCard key={meal.id} meal={meal} getExchanges={getExchanges} />)
   return (
     <div>
       <Container>
-        <Row>
-          <h1>Meal Tracker</h1>
-        </Row>
-        <Row>
-          <CardGroup>
-            {renderMeals}
-          </CardGroup>
-          
-        </Row>
+        <Stack gap={3}>
+          <Row></Row>
+          <Row>
+            <h1>Daily Exchanges Tracker</h1>
+          </Row>
+          <Row>
+            <Col>
+              <MealsSummary macros={macros}/>
+            </Col>
+            <Col>
+
+            </Col>
+          </Row>
+          <Row>
+            <h2>Meals</h2>
+          </Row>
+          <Row>
+            <CardGroup>
+              {renderMeals}
+            </CardGroup>
+          </Row>
+        </Stack>
       </Container>
     </div>
   );
