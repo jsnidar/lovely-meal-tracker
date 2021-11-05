@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card } from 'react-bootstrap';
+import { Card, Stack, Button } from 'react-bootstrap';
 import MealIngredientsList from './MealIngredientsList';
 import MealExchanges from './MealExchanges';
 
@@ -22,6 +22,7 @@ const MealCard = ({ meal, getExchanges }) => {
   return (
     <Card>
       <Card.Body>
+      <Stack>
         <Card.Title>{category()}</Card.Title>
         <br></br>
         <Card.Subtitle>{meal.name}</Card.Subtitle>
@@ -34,7 +35,11 @@ const MealCard = ({ meal, getExchanges }) => {
         <br></br>
         <Card.Subtitle>Exchanges</Card.Subtitle>
         <MealExchanges exchanges={exchanges} />
+      </Stack> 
       </Card.Body>
+      <Card.Footer>
+          <Button variant='warning'>Edit Meal</Button>
+        </Card.Footer>
     </Card>
   );
 }

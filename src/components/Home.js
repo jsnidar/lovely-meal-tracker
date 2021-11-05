@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Row, Col, CardGroup, Stack } from 'react-bootstrap';
 import MealCard from './MealCard';
 import MealsSummary from './MealsSummary';
+import AddMealForm from './AddMealForm';
 
 const Home = ({ meals, getExchanges, macros }) => {
 
@@ -19,7 +20,7 @@ const Home = ({ meals, getExchanges, macros }) => {
               <MealsSummary macros={macros}/>
             </Col>
             <Col>
-
+              <AddMealForm />
             </Col>
           </Row>
           <Row>
