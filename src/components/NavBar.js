@@ -5,10 +5,9 @@ const NavBar = () => {
 
   return (
     <div>
-      <Navbar className='navigation' bg='light' expand="lg">
+      <Navbar className='navigation' bg='light' expand="lg" sticky="top">
           <Container>
-            <Image src="JacquelynKPhotography_LovelyNutritionLogo_BLACK.png" fluid style={{height: '3rem'}} />
-            <Navbar.Brand href="/">Lovely Meal Tracker</Navbar.Brand>
+            <Image src="JacquelynKPhotography_LovelyNutritionLogo_BLACK.png" fluid style={{height: '5rem'}} />
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
             <Nav >

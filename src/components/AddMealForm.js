@@ -1,7 +1,8 @@
 import React from 'react';
 import { Form, Button, FloatingLabel } from 'react-bootstrap'
+import FormIngredients from './FormIngredients';
 
-const AddMealForm = () => {
+const AddMealForm = ({ ingredients }) => {
 
   return (
     <Form>
@@ -32,10 +33,8 @@ const AddMealForm = () => {
         </Form.Select>
       </FloatingLabel>
 
-      <Form.Group className="mb-3" controlId="formIngredient">
-        <Form.Label>Ingredients</Form.Label>
-        <Form.Control type="text" placeholder="Enter description" />
-      </Form.Group>
+
+      <FormIngredients ingredients={ingredients} />
 
       <Button variant="warning" type="submit">
         Submit

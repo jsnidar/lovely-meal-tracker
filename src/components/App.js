@@ -25,7 +25,7 @@ function App() {
       }
       return macrosObj;
     }
-    
+
     fetch('http://localhost:9292/meals')
     .then(r => r.json())
     .then(meals => {
@@ -70,7 +70,14 @@ function App() {
     <div>
       <NavBar />
       <Routes>
-        <Route path='/' element={<Home meals={meals} getExchanges={getExchanges} macros={macros} />}>
+        <Route path='/' element={
+          <Home 
+            meals={meals} 
+            getExchanges={getExchanges} 
+            macros={macros}
+            ingredients={ingredients}
+          />
+        }>
         </Route>
       </Routes>
     </div>

@@ -10,13 +10,13 @@ const MealsSummary = ({ macros }) => {
         <h2>Daily Exchanges</h2>
         <ul>
           <li>Protien: {macros.protein}</li>
-          <li>Fat: {macros.protein}</li>
-          <li>Total Carbs: {macros.protein}</li>
+          <li>Fat: {macros.fat}</li>
+          <li>Total Carbs: {macros.starch + macros.fruit}</li>
           <ul>
-            <li>Starch: {macros.protein}</li>
-            <li>Fruit: {macros.protein}</li>
+            <li>Starch: {macros.starch}</li>
+            <li>Fruit: {macros.fruit}</li>
           </ul>
-          <li>Vegetables: {macros.protein}</li>
+          <li>Vegetables: {macros.vegetable}</li>
         </ul>
       </Stack>
     </Container>
