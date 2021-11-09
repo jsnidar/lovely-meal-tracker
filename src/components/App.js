@@ -38,6 +38,17 @@ function App() {
     .then(ingredients => setIngredients(ingredients))
   }, [])
 
+  const handleFormSubmit = (formData) => {
+    console.log(formData)
+    // fetch('http://localhost:9292/meals', {
+    //   method: 'POST', 
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify(formData)
+    // })
+  }
+
   const getExchanges = (meal) => {
     let exchanges = {protein: 0, fat: 0, fruit: 0, starch: 0, vegetable: 0}
   
@@ -64,6 +75,8 @@ function App() {
     return sum
   }
 
+  
+
   return (
     <div>
       <NavBar />
@@ -74,6 +87,7 @@ function App() {
             getExchanges={getExchanges} 
             macros={macros}
             ingredients={ingredients}
+            handleFormSubmit={handleFormSubmit}
           />
         }>
         </Route>

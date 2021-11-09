@@ -1,12 +1,16 @@
-import React from 'react';
-import { Container, Row, Col, CardGroup, Stack } from 'react-bootstrap';
+import { React, useState }from 'react';
+import { Container, Row, Col, CardGroup, Stack, Button, Modal } from 'react-bootstrap';
 import MealCard from './MealCard';
 import MealsSummary from './MealsSummary';
 import AddMealForm from './AddMealForm';
 
-const Home = ({ meals, getExchanges, macros, ingredients }) => {
+const Home = ({ meals, getExchanges, macros, ingredients, handleFormSubmit }) => {
 
   const renderMeals = meals.map((meal) => <MealCard key={meal.id} meal={meal} getExchanges={getExchanges} />)
+  const [show, setShow] = useState(false);
+  const handleShowModal = () => setShow(true)
+  const handleCloseModal = () => setShow(false)
+
   return (
     <div>
       <Container>
@@ -38,15 +42,23 @@ const Home = ({ meals, getExchanges, macros, ingredients }) => {
             </Col>
           </Row>
           <Row>
+            <Button variant="warning" onClick={handleShowModal}>
+              Add a Meal
+            </Button>
+            <AddMealForm 
+              show={show} 
+              ingredients={ingredients} 
+              handleCloseModal={handleCloseModal}
+              handleFormSubmit={handleFormSubmit}
+            />
+          </Row>
+          <Row>
             <h2>Meals</h2>
           </Row>
           <Row>
             <CardGroup>
               {renderMeals}
             </CardGroup>
-          </Row>
-          <Row>
-            <AddMealForm ingredients={ingredients} />
           </Row>
         </Stack>
       </Container>

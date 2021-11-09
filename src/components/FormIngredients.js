@@ -3,7 +3,7 @@ import AddIngredient from './AddIngredient';
 import { Button, Container, Col, Row } from 'react-bootstrap';
 import { useState } from 'react';
 
-const FormIngredients = ({ ingredients, setFormData }) => {
+const FormIngredients = ({ ingredients, setFormData, formData }) => {
 
   const [mealIngredients, setMealIngredients] = useState([])
   const [listId, setListId] = useState(1)
@@ -22,8 +22,7 @@ const FormIngredients = ({ ingredients, setFormData }) => {
       return ingredient
     })
     setMealIngredients(updatedIngredients)
-    debugger;
-    // setFormData({...FormData})
+    setFormData({...formData, ingredients: updatedIngredients})
   }
 
   console.log(mealIngredients)
