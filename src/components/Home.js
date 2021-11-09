@@ -4,9 +4,9 @@ import MealCard from './MealCard';
 import MealsSummary from './MealsSummary';
 import AddMealForm from './AddMealForm';
 
-const Home = ({ meals, getExchanges, macros, ingredients, handleFormSubmit }) => {
+const Home = ({ categories, meals, getExchanges, macros, ingredients, handleFormSubmit }) => {
 
-  const renderMeals = meals.map((meal) => <MealCard key={meal.id} meal={meal} getExchanges={getExchanges} />)
+  const renderMeals = meals.map((meal) => <MealCard categories={categories} key={meal.id} meal={meal} getExchanges={getExchanges} />)
   const [show, setShow] = useState(false);
   const handleShowModal = () => setShow(true)
   const handleCloseModal = () => setShow(false)
@@ -30,7 +30,7 @@ const Home = ({ meals, getExchanges, macros, ingredients, handleFormSubmit }) =>
                   <ul>
                     <li>Protein: 12</li>
                     <li>Fat: 6</li>
-                    <li>Total Carbs: </li>
+                    <li>Total Carbs: 8</li>
                     <ul>
                       <li>Starch: 6</li>
                       <li>Fruit: 2</li>
@@ -47,7 +47,7 @@ const Home = ({ meals, getExchanges, macros, ingredients, handleFormSubmit }) =>
             </Button>
             <AddMealForm 
               show={show} 
-              ingredients={ingredients} 
+              ingredients={ingredients}
               handleCloseModal={handleCloseModal}
               handleFormSubmit={handleFormSubmit}
             />

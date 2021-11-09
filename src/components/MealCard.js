@@ -3,27 +3,21 @@ import { Card, Stack, Button } from 'react-bootstrap';
 import MealIngredientsList from './MealIngredientsList';
 import MealExchanges from './MealExchanges';
 
-const MealCard = ({ meal, getExchanges }) => {
+const MealCard = ({ categories, meal, getExchanges }) => {
   
   let exchanges = getExchanges(meal)
-  
-  const category = () => {
-    if (meal.category_id === 1) {
-      return 'Breakfast'
-    }else if(meal.category_id === 2) {
-       return 'Lunch'
-    }else if(meal.category_id === 3) {
-       return 'Dinner'
-    }else{
-      return "Snack"
-    }
+  let category
+  if(categories.length > 0) {
+    category = categories.find(category => category.id === meal.category_id).name
+    category = category[0].toUpperCase() + category.slice(1)
   }
+  
 
   return (
     <Card>
       <Card.Body>
       <Stack>
-        <Card.Title>{category()}</Card.Title>
+        <Card.Title>{category}</Card.Title>
         <br></br>
         <Card.Subtitle>{meal.name}</Card.Subtitle>
         <Card.Text>

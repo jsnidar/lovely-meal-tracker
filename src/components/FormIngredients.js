@@ -25,8 +25,13 @@ const FormIngredients = ({ ingredients, setFormData, formData }) => {
     setFormData({...formData, ingredients: updatedIngredients})
   }
 
-  console.log(mealIngredients)
-  let renderIngredients = mealIngredients.map ( ingredient => <AddIngredient key={ingredient.listId} ingredients = {ingredients} listId={listId - 1} handleUpdateIngredient={handleUpdateIngredient}/>)
+  const handleRemoveIngredient = (ingredientObj) => {
+    const updatedIngredients = mealIngredients.filter((ingredient) => ingredient.listId !== ingredientObj.listId)
+    setMealIngredients(updatedIngredients)
+    setFormData({...formData, ingredients: updatedIngredients})
+  }
+
+  let renderIngredients = mealIngredients.map ( ingredient => <AddIngredient key={ingredient.listId} ingredients={ingredients} listId={listId - 1} handleUpdateIngredient={handleUpdateIngredient} handleRemoveIngredient={handleRemoveIngredient} />)
 
     return (
     <Container>
@@ -34,6 +39,7 @@ const FormIngredients = ({ ingredients, setFormData, formData }) => {
         <Col>Macros</Col>
         <Col>Ingredients</Col>
         <Col>Quantity</Col>
+        <Col xs={1}></Col>
       </Row>
       {renderIngredients}
       <Row>

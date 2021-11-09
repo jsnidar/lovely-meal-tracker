@@ -11,6 +11,7 @@ function App() {
   const [meals, setMeals] = useState([])
   const [ingredients, setIngredients] = useState([])
   const [macros, setMacros] = useState({})
+  const [categories, setCategories] = useState([])
 
   useEffect(() => {
 
@@ -33,10 +34,13 @@ function App() {
     fetch('http://localhost:9292/ingredients')
     .then(r => r.json())
     .then(ingredients => setIngredients(ingredients))
+
+    fetch('http://localhost:9292/categories')
+    .then(r => r.json())
+    .then(categories => setCategories(categories))
   }, [])
 
   const handleFormSubmit = (formData) => {
-    console.log(formData)
     // fetch('http://localhost:9292/meals', {
     //   method: 'POST', 
     //   headers: {
@@ -85,6 +89,7 @@ function App() {
             macros={macros}
             ingredients={ingredients}
             handleFormSubmit={handleFormSubmit}
+            categories={categories}
           />
         }>
         </Route>

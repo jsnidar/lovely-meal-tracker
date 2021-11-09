@@ -11,7 +11,6 @@ const AddMealForm = ({ ingredients, handleCloseModal, handleFormSubmit, show }) 
     ingredients: []
 })
 
-console.log(formData)
   return (
     <Modal show={show} onHide={handleCloseModal} size='lg'>
       <Modal.Header closeButton>
@@ -46,7 +45,11 @@ console.log(formData)
             </Form.Select>
           </FloatingLabel>
 
-          <FormIngredients setFormData={setFormData} formData={formData} ingredients={ingredients} />
+          <FormIngredients 
+            setFormData={setFormData} 
+            formData={formData} 
+            ingredients={ingredients} 
+          />
         </Form>
       </Modal.Body>
       <Modal.Footer>
