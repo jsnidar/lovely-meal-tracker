@@ -1,13 +1,12 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
 
-const IngredientsDropdown = ({ setIngredient, ingredients }) => {
-  const renderIngredients = ingredients.map( ingredient => <option key={ingredient.id} value={ingredient.id}>{ingredient.name}</option>)
+const IngredientsDropdown = ({ ingredients, handleIngredientSelect }) => {
+  const renderIngredients = ingredients.map( ingredient => <option key={ingredient.id} value={ingredient.id}>{ingredient.portion_quantity} {ingredient.portion_unit} {ingredient.name}</option>)
 
   
   return (
-    <Form.Group onChange={e => setIngredient(e.target.value)} className="mb-3" controlId="formIngredient">
-      <Form.Label>Ingredients</Form.Label>
+    <Form.Group onChange={handleIngredientSelect} className="mb-3" controlId="formIngredient">
       <Form.Select aria-label="Ingredients">
         <option>Select an ingredient</option>
         {renderIngredients}

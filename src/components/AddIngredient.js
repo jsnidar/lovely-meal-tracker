@@ -4,23 +4,32 @@ import IngredientsDropdown from './IngredientsDropdown';
 import MacrosDropdown from './MacrosDropdown';
 import { Row, Col, Form } from 'react-bootstrap';
 
-const AddIngredient = ({ ingredients }) => {
+const AddIngredient = ({ ingredients, listId, handleUpdateIngredient }) => {
   const [macro, setMacro] = useState('')
-  const [ingredient, setIngredient] = useState(0)
+  const [ingredient, setIngredient] = useState({listId: listId})
 
-  console.log(ingredient)
+  const ingredientList = ingredients.filter( ingredient => ingredient.macro === macro)
+  const handleIngredientSelect = (e) => {
+    setIngredient({...ingredient, ingredient_id: e.target.value})
+    handleUpdateIngredient({...ingredient, ingredient_id: e.target.value})
+  }
+
+  const handleQuantityChange = (e) => {
+    setIngredient({...ingredient, portion_quantity: e.target.value})
+    handleUpdateIngredient({...ingredient, portion_quantity: e.target.value})
+  }
+  
   return (
     <Row>
       <Col>
         <MacrosDropdown setMacro={setMacro} ingredients={ingredients} />
       </Col>
       <Col>
-        <IngredientsDropdown setIngredient={setIngredient} ingredients={ingredients} />
+        <IngredientsDropdown handleIngredientSelect={handleIngredientSelect} ingredients={ingredientList} />
       </Col>
       <Col>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Quantity</Form.Label>
-          <Form.Control type="number" placeholder="Enter quantity" />
+        <Form.Group className="mb-3" controlId="formIngredientQuantity">
+          <Form.Control type="number" onChange={handleQuantityChange} placeholder="Enter quantity" />
         </Form.Group>
       </Col>
     </Row>

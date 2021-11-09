@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
 
-const MacrosDropdown = ({ ingredients }) => {
+const MacrosDropdown = ({ ingredients, setMacro }) => {
   let macros = []
   ingredients.forEach( ingredient => {
     if(!macros.includes(ingredient.macro)) {
@@ -13,8 +13,7 @@ const MacrosDropdown = ({ ingredients }) => {
 
   return (
     <Form.Group className="mb-3" controlId="formIngredient">
-      <Form.Label>Macros</Form.Label>
-      <Form.Select aria-label="Ingredients">
+      <Form.Select onChange={e => setMacro(e.target.value)} aria-label="Ingredients">
         <option>Select a macro</option>
         {renderMacros}
       </Form.Select>

@@ -64,8 +64,6 @@ function App() {
     return sum
   }
 
-  console.log(macros)
-
   return (
     <div>
       <NavBar />

@@ -9,7 +9,7 @@ const MealsSummary = ({ macros }) => {
       <Stack gap={3}>
         <h2>Daily Exchanges</h2>
         <ul>
-          <li>Protien: {macros.protein}</li>
+          <li>Protein: {macros.protein}</li>
           <li>Fat: {macros.fat}</li>
           <li>Total Carbs: {macros.starch + macros.fruit}</li>
           <ul>
