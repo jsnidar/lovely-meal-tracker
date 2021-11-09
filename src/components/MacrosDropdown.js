@@ -2,12 +2,7 @@ import React from 'react';
 import { Form } from 'react-bootstrap';
 
 const MacrosDropdown = ({ ingredients, setMacro }) => {
-  let macros = []
-  ingredients.forEach( ingredient => {
-    if(!macros.includes(ingredient.macro)) {
-      macros.push(ingredient.macro)
-    }
-  })
+  let macros = [...new Set(ingredients.map(ingredient => ingredient.macro))]
 
   const renderMacros = macros.map( macro => <option key={macro} value={macro}>{macro}</option>)
 

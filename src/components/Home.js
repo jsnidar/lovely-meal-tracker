@@ -1,5 +1,5 @@
 import { React, useState }from 'react';
-import { Container, Row, Col, CardGroup, Stack, Button, Modal } from 'react-bootstrap';
+import { Container, Row, Col, CardGroup, Stack, Button } from 'react-bootstrap';
 import MealCard from './MealCard';
 import MealsSummary from './MealsSummary';
 import AddMealForm from './AddMealForm';
