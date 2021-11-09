@@ -15,10 +15,7 @@ function App() {
   useEffect(() => {
 
     const getMacroSummary = (meals) => {
-      const macrosArray = []
-      meals.forEach( meal => {
-        macrosArray.push(getExchanges(meal))
-      })
+      const macrosArray = meals.map(meal => getExchanges(meal))
       let macrosObj = {protein: 0, fat: 0, fruit: 0, starch: 0, vegetable: 0}
       for(const macro in macrosObj) {
         macrosObj[macro] = sumOfOneMacro(macrosArray, macro)
