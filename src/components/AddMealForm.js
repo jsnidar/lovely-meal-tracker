@@ -2,7 +2,7 @@ import { React, useState } from 'react';
 import { Form, Button, FloatingLabel, Modal } from 'react-bootstrap'
 import FormIngredients from './FormIngredients';
 
-const AddMealForm = ({ ingredients, handleCloseModal, handleFormSubmit, show }) => {
+const AddMealForm = ({ ingredients, handleCloseModal, addMeal, show }) => {
   const [formData, setFormData] = useState({
     name: '',
     description: "",
@@ -10,6 +10,11 @@ const AddMealForm = ({ ingredients, handleCloseModal, handleFormSubmit, show }) 
     category_id: 0,
     ingredients: []
 })
+
+const handleAddMeal = () => {
+  addMeal(formData)
+  handleCloseModal()
+}
 
   return (
     <Modal show={show} onHide={handleCloseModal} size='lg'>
@@ -53,7 +58,7 @@ const AddMealForm = ({ ingredients, handleCloseModal, handleFormSubmit, show }) 
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant='warning' onClick={handleFormSubmit(formData)}>Save Meal</Button>
+        <Button variant='warning' onClick={e => handleAddMeal()}>Save Meal</Button>
       </Modal.Footer>
     </Modal>
   )

@@ -1,9 +1,9 @@
 import React from 'react';
-import { Card, Stack, Button } from 'react-bootstrap';
+import { Card, Stack, Button, Row, Col } from 'react-bootstrap';
 import MealIngredientsList from './MealIngredientsList';
 import MealExchanges from './MealExchanges';
 
-const MealCard = ({ categories, meal, getExchanges }) => {
+const MealCard = ({ categories, meal, getExchanges, handleRemoveMeal }) => {
   
   let exchanges = getExchanges(meal)
   let category
@@ -32,7 +32,14 @@ const MealCard = ({ categories, meal, getExchanges }) => {
       </Stack> 
       </Card.Body>
       <Card.Footer>
-          <Button variant='warning'>Edit Meal</Button>
+        <Row>
+          <Col>
+            <Button variant='warning'>Edit</Button>
+          </Col>
+          <Col>
+            <Button onClick={e => handleRemoveMeal(meal.id)} variant='warning'>Delete</Button>
+          </Col>
+        </Row>
         </Card.Footer>
     </Card>
   );

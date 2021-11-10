@@ -13,22 +13,14 @@ function App() {
   const [macros, setMacros] = useState({})
   const [categories, setCategories] = useState([])
 
-  useEffect(() => {
+  
 
-    const getMacroSummary = (meals) => {
-      const macrosArray = meals.map(meal => getExchanges(meal))
-      let macrosObj = {protein: 0, fat: 0, fruit: 0, starch: 0, vegetable: 0}
-      for(const macro in macrosObj) {
-        macrosObj[macro] = sumOfOneMacro(macrosArray, macro)
-      }
-      return macrosObj;
-    }
+  useEffect(() => {
 
     fetch('http://localhost:9292/meals')
     .then(r => r.json())
     .then(meals => {
       setMeals(meals)
-      setMacros(getMacroSummary(meals))
     })
 
     fetch('http://localhost:9292/ingredients')
@@ -40,14 +32,53 @@ function App() {
     .then(categories => setCategories(categories))
   }, [])
 
-  const handleFormSubmit = (formData) => {
-    // fetch('http://localhost:9292/meals', {
-    //   method: 'POST', 
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify(formData)
-    // })
+  useEffect(() => {
+    const getMacroSummary = (meals) => {
+      const macrosArray = meals.map(meal => getExchanges(meal))
+      let macrosObj = {protein: 0, fat: 0, fruit: 0, starch: 0, vegetable: 0}
+      for(const macro in macrosObj) {
+        macrosObj[macro] = sumOfOneMacro(macrosArray, macro)
+      }
+      return macrosObj;
+    }
+
+    if (meals.length > 0) {
+      return setMacros(getMacroSummary(meals))
+    }
+  }, [meals])
+
+  
+  const addMeal = (formData) => {
+    
+    const mealIngs = new Map()
+    formData.ingredients.forEach(mealIng => mealIngs.set(mealIng.ingredient_id.toString(), parseInt(mealIng.portion_quantity)))
+
+    const mapToObj = m => {
+      return Array.from(m).reduce((obj, [key, value]) => {
+        obj[key] = value;
+        return obj;
+      }, {});
+    };
+
+    const updatedFormData = {...formData, ingredients: mapToObj(mealIngs)}
+    debugger
+    fetch('http://localhost:9292/meals', {
+      method: 'POST', 
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(updatedFormData)
+    })
+    .then(r => r.json())
+    .then(meal => setMeals([...meals, meal]))
+  }
+
+  const handleRemoveMeal = (id) => {
+    fetch("http://localhost:9292/meals/" + id, {
+      method: 'DELETE',
+    })
+    .then(r => r.json())
+    .then(deletedMeal => setMeals(meals.filter(meal => meal.id !== deletedMeal.id)))
   }
 
   const getExchanges = (meal) => {
@@ -88,8 +119,9 @@ function App() {
             getExchanges={getExchanges} 
             macros={macros}
             ingredients={ingredients}
-            handleFormSubmit={handleFormSubmit}
+            addMeal={addMeal}
             categories={categories}
+            handleRemoveMeal={handleRemoveMeal}
           />
         }>
         </Route>
