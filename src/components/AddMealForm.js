@@ -49,7 +49,7 @@ const AddMealForm = ({ categories, ingredients, addMeal, updateMeal }) => {
 
   const renderCategories = categories.map(category => <option key={category.id} value={category.id}>{category.name[0].toUpperCase() + category.name.slice(1)}</option>)
 
-  console.log('form data: ', formData)
+  console.log('formData: ', formData)
   return (
     <Container>
       <Stack gap={3}>

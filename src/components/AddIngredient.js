@@ -13,9 +13,8 @@ const AddIngredient = ({ ingredients, mealIngredient, listId, handleUpdateIngred
       quantity: mealIngredient.quantity
     } : {listId: listId}
   )
-  console.log("mealIngredient", mealIngredient)
+
   const ingredientList = ingredients.filter( ingredient => ingredient.macro === macro)
-  
   const handleIngredientSelect = (e) => {
     const ingId = parseInt(e.target.value)
     setIngredient({...ingredient, ingredient_id: ingId})

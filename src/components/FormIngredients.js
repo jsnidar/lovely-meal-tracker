@@ -16,17 +16,15 @@ const FormIngredients = ({ ingredients, setFormData, formData }) => {
             listId: mimickId, 
             ingredient_id: meal_ingredient.ingredient_id,
             quantity: meal_ingredient.quantity, 
-            macro: meal_ingredient.macro 
+            macro: meal_ingredient.ingredient.macro 
           })
         mimickId++
         setMealIngredients(fetchedMealIngredients)
         setListId(mimickId)
       })
 
-      
   }, [formData.meal_ingredients])
 
-  
   const handleAddIngredient = (e) => {
     setMealIngredients(
       [...mealIngredients, {
