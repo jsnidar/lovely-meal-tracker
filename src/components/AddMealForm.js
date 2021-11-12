@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react';
-import { Form, Button, FloatingLabel, Container } from 'react-bootstrap'
+import { Stack, Form, Button, FloatingLabel, Container } from 'react-bootstrap'
 import { useParams, useNavigate } from 'react-router-dom';
 import FormIngredients from './FormIngredients';
 
@@ -52,38 +52,41 @@ const AddMealForm = ({ categories, ingredients, addMeal, updateMeal }) => {
   console.log('form data: ', formData)
   return (
     <Container>
-      <Form>
-        <h2>{id ? "Update Meal" : "Add a Meal"}</h2>
-        <FloatingLabel
-          controlId="floatingInput"
-          label="Name"
-          className="mb-3"
-          >
-          <Form.Control type="text" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} placeholder="Enter meal name" />
-        </FloatingLabel>
+      <Stack gap={3}>
+        <Form>
+          <h2>{id ? "Update Meal" : "Add a Meal"}</h2>
+          <FloatingLabel
+            controlId="floatingInput"
+            label="Name"
+            className="mb-3"
+            >
+            <Form.Control type="text" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} placeholder="Enter meal name" />
+          </FloatingLabel>
 
-        <FloatingLabel
-          controlId="floatingInput"
-          label="Description"
-          className="mb-3"
-          >
-          <Form.Control type="text" value ={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} placeholder="Enter description" />
-        </FloatingLabel>
+          <FloatingLabel
+            controlId="floatingInput"
+            label="Description"
+            className="mb-3"
+            >
+            <Form.Control type="text" value ={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} placeholder="Enter description" />
+          </FloatingLabel>
 
-        <FloatingLabel controlId="floatingSelect" label="Meal Type">
-          <Form.Select value={formData.category_id} onChange={e => setFormData({...formData, category_id: e.target.value})} aria-label="Meal Type">
-            <option>Select a meal type</option>
-            {renderCategories}
-          </Form.Select>
-        </FloatingLabel>
-
-        <FormIngredients 
-          setFormData={setFormData} 
-          formData={formData} 
-          ingredients={ingredients} 
-        />
-        <Button type='submit' variant='warning' onClick={e => handleSaveMeal(e, formData.id)}>Save Meal</Button>
-      </Form>
+          <FloatingLabel controlId="floatingSelect" label="Meal Type">
+            <Form.Select value={formData.category_id} onChange={e => setFormData({...formData, category_id: e.target.value})} aria-label="Meal Type">
+              <option>Select a meal type</option>
+              {renderCategories}
+            </Form.Select>
+          </FloatingLabel>
+          <br></br>
+          <FormIngredients 
+            setFormData={setFormData} 
+            formData={formData} 
+            ingredients={ingredients} 
+          />
+          <br></br>
+          <Button type='submit' variant='warning' onClick={e => handleSaveMeal(e, formData.id)}>Save Meal</Button>
+        </Form>
+      </Stack>
     </Container>
         
   )

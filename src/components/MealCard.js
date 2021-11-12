@@ -12,6 +12,8 @@ const MealCard = ({ categories, meal, getExchanges, handleRemoveMeal }) => {
     category = categories.find(category => category.id === meal.category_id).name
     category = category[0].toUpperCase() + category.slice(1)
   }
+
+  
   
   return (
     <div>

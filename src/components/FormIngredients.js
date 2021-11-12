@@ -66,8 +66,12 @@ const FormIngredients = ({ ingredients, setFormData, formData }) => {
         <Col>Quantity</Col>
         <Col xs={1}></Col>
       </Row>
+      <Row>
+        <br></br>
+      </Row>
       {renderIngredients}
       <Row>
+        <br></br>
         <Button variant='warning' onClick={handleAddIngredient}>Add Ingredient</Button>
       </Row>
     </Container>
