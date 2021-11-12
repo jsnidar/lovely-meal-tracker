@@ -4,33 +4,44 @@ import IngredientsDropdown from './IngredientsDropdown';
 import MacrosDropdown from './MacrosDropdown';
 import { Row, Col, Form, Button } from 'react-bootstrap';
 
-const AddIngredient = ({ ingredients, listId, handleUpdateIngredient, handleRemoveIngredient }) => {
-  const [macro, setMacro] = useState('')
-  const [ingredient, setIngredient] = useState({listId: listId})
-
+const AddIngredient = ({ ingredients, mealIngredient, listId, handleUpdateIngredient, handleRemoveIngredient }) => {
+  const [macro, setMacro] = useState(mealIngredient.macro ? mealIngredient.macro : '')
+  const [ingredient, setIngredient] = useState(
+    mealIngredient.listId ? {
+      listId: mealIngredient.listId, 
+      ingredient_id: mealIngredient.ingredient_id,
+      quantity: mealIngredient.quantity
+    } : {listId: listId}
+  )
+  console.log("mealIngredient", mealIngredient)
   const ingredientList = ingredients.filter( ingredient => ingredient.macro === macro)
   
   const handleIngredientSelect = (e) => {
-    setIngredient({...ingredient, ingredient_id: e.target.value})
-    handleUpdateIngredient({...ingredient, ingredient_id: e.target.value})
+    const ingId = parseInt(e.target.value)
+    setIngredient({...ingredient, ingredient_id: ingId})
+    handleUpdateIngredient({...ingredient, ingredient_id: ingId})
+  }
+
+  const handleMacroSelect = (e) => {
+    setMacro(e.target.value)
   }
 
   const handleQuantityChange = (e) => {
-    setIngredient({...ingredient, portion_quantity: e.target.value})
-    handleUpdateIngredient({...ingredient, portion_quantity: e.target.value})
+    setIngredient({...ingredient, quantity: e.target.value})
+    handleUpdateIngredient({...ingredient, quantity: e.target.value})
   }
   
   return (
     <Row>
       <Col>
-        <MacrosDropdown setMacro={setMacro} ingredients={ingredients} />
+        <MacrosDropdown macro={macro} setMacro={setMacro} ingredients={ingredients} handleMacroSelect={handleMacroSelect} />
       </Col>
       <Col>
-        <IngredientsDropdown handleIngredientSelect={handleIngredientSelect} ingredients={ingredientList} />
+        <IngredientsDropdown ingredientId={ingredient.ingredient_id} handleIngredientSelect={handleIngredientSelect} ingredients={ingredientList} />
       </Col>
       <Col>
         <Form.Group className="mb-3" controlId="formIngredientQuantity">
-          <Form.Control type="number" onChange={handleQuantityChange} placeholder="Enter quantity" />
+          <Form.Control type="number" defaultValue={mealIngredient.quantity ? mealIngredient.quantity : 1} onChange={handleQuantityChange} placeholder="Enter quantity" />
         </Form.Group>
       </Col>
       <Col xs={1}>

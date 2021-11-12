@@ -2,18 +2,25 @@ import '../App.css';
 import { Routes, Route } from 'react-router-dom';
 import Home from './Home';
 import NavBar from './NavBar';
+import AddMealForm from './AddMealForm';
 import { useEffect, useState } from 'react';
+import ExchangesGoalForm from './ExchangesGoalForm';
 
 
 
 function App() {
 
-  const [meals, setMeals] = useState([])
   const [ingredients, setIngredients] = useState([])
   const [macros, setMacros] = useState({})
   const [categories, setCategories] = useState([])
-
-  
+  const [meals, setMeals] = useState([])
+  const [goal, setGoal] = useState({
+    protein: 0, 
+    fat: 0, 
+    starch: 0, 
+    fruit: 0, 
+    vegetables: 0
+  })
 
   useEffect(() => {
 
@@ -47,11 +54,27 @@ function App() {
     }
   }, [meals])
 
+  const updateMeal = (formData) => {
+    console.log(formData)
+    fetch('http://localhost:9292/meals/' + formData.id, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)})
+      .then(r => r.json())
+      .then(updatedMeal => setMeals(meals.map( meal => {
+        if(meal.id === updatedMeal.id) {
+          return updatedMeal
+        }else{
+          return meal
+        }
+      })))
+  }
   
   const addMeal = (formData) => {
-    
     const mealIngs = new Map()
-    formData.ingredients.forEach(mealIng => mealIngs.set(mealIng.ingredient_id.toString(), parseInt(mealIng.portion_quantity)))
+    formData.meal_ingredients.forEach(mealIng => mealIngs.set(mealIng.ingredient_id.toString(), parseInt(mealIng.portion_quantity)))
 
     const mapToObj = m => {
       return Array.from(m).reduce((obj, [key, value]) => {
@@ -60,8 +83,8 @@ function App() {
       }, {});
     };
 
-    const updatedFormData = {...formData, ingredients: mapToObj(mealIngs)}
-    debugger
+    const updatedFormData = {...formData, meal_ingredients: mapToObj(mealIngs)}
+
     fetch('http://localhost:9292/meals', {
       method: 'POST', 
       headers: {
@@ -107,7 +130,9 @@ function App() {
     return sum
   }
 
-  
+  const updateGoal = (updatedGoal) => {
+    setGoal(updatedGoal)
+  }
 
   return (
     <div>
@@ -115,16 +140,41 @@ function App() {
       <Routes>
         <Route path='/' element={
           <Home 
-            meals={meals} 
+            meals={meals}
+            goal={goal}
             getExchanges={getExchanges} 
             macros={macros}
             ingredients={ingredients}
+            updateMeal={updateMeal}
             addMeal={addMeal}
             categories={categories}
             handleRemoveMeal={handleRemoveMeal}
           />
-        }>
-        </Route>
+        } />
+        <Route path='meals/new' element={
+          <AddMealForm 
+            categories={categories}
+            ingredients={ingredients}
+            addMeal={addMeal}
+            updateMeal={updateMeal}
+            meals={meals}
+          />} 
+        />
+        <Route path='meals/:id/edit' element={
+          <AddMealForm
+            categories={categories}
+            ingredients={ingredients}
+            addMeal={addMeal}
+            updateMeal={updateMeal}
+            meals={meals}
+          />} 
+        />
+        <Route path='/goal/edit' element={
+          <ExchangesGoalForm
+            goal={goal}
+            updateGoal={updateGoal}
+          />} 
+        />
       </Routes>
     </div>
   );

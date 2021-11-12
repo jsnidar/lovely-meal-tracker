@@ -1,16 +1,43 @@
-import { React, useState }from 'react';
-import { Container, Row, Col, CardGroup, Stack, Button } from 'react-bootstrap';
+import { React }from 'react';
+import { Link } from 'react-router-dom';
+import { Container, Row, Col, Stack, Button } from 'react-bootstrap';
 import MealCard from './MealCard';
 import MealsSummary from './MealsSummary';
-import AddMealForm from './AddMealForm';
 
-const Home = ({ categories, meals, getExchanges, macros, ingredients, addMeal, handleRemoveMeal }) => {
+const Home = (
+  { 
+    goal, 
+    categories,
+    meals,
+    getExchanges, 
+    macros, 
+    handleRemoveMeal,
+  }) => {
 
-  const renderMeals = meals.map((meal) => <MealCard categories={categories} key={meal.id} meal={meal} getExchanges={getExchanges} handleRemoveMeal={handleRemoveMeal} />)
-  const [show, setShow] = useState(false);
-  const handleShowModal = () => setShow(true)
-  const handleCloseModal = () => setShow(false)
+  const renderMeals = meals.map((meal) => <MealCard 
+    class="mh-75"
+    categories={categories} 
+    key={meal.id} 
+    meal={meal} 
+    getExchanges={getExchanges} 
+    handleRemoveMeal={handleRemoveMeal} 
+  />)
 
+  const renderGoal = <Container>
+    <Stack gap={3}>
+      <h2>Daily Exchanges Goal</h2>
+      <ul>
+        <li>Protein: {goal.protein !== 0 ? goal.protein : 'none'}</li>
+        <li>Fat: {goal.fat !== 0 ? goal.fat : 'none'}</li>
+        <li>Total Carbs: {goal.starch !== 0 || goal.fruit !== 0 ? parseInt(goal.starch) + parseInt(goal.fruit) : 'none'}</li>
+        <ul>
+          <li>Starch: {goal.starch !== 0 ? goal.starch : 'none'}</li>
+          <li>Fruit: {goal.fruit !== 0 ? goal.fruit : 'none'}</li>
+        </ul>
+        <li>Vegetables: {goal.vegetables !== 0 ? goal.vegetables : 'none'}</li>
+      </ul>
+    </Stack>
+  </Container>
   return (
     <div>
       <Container>
@@ -24,41 +51,26 @@ const Home = ({ categories, meals, getExchanges, macros, ingredients, addMeal, h
               <MealsSummary macros={macros}/>
             </Col>
             <Col>
-              <Container>
-                <Stack gap={3}>
-                  <h2>Daily Exchanges Goal</h2>
-                  <ul>
-                    <li>Protein: 12</li>
-                    <li>Fat: 6</li>
-                    <li>Total Carbs: 8</li>
-                    <ul>
-                      <li>Starch: 6</li>
-                      <li>Fruit: 2</li>
-                    </ul>
-                    <li>Vegetables: 6</li>
-                  </ul>
-                </Stack>
-              </Container>
+              {renderGoal}
             </Col>
           </Row>
           <Row>
-            <Button variant="warning" onClick={handleShowModal}>
-              Add a Meal
-            </Button>
-            <AddMealForm 
-              show={show} 
-              ingredients={ingredients}
-              handleCloseModal={handleCloseModal}
-              addMeal={addMeal}
-            />
+            <Col>
+              <Link to={"/meals/new"} >
+                <Button variant="warning" >Add a Meal</Button>
+              </Link>
+            </Col>
+            <Col>
+              <Link to={'/goal/edit'}>
+                <Button variant="warning">Set Goal</Button>
+              </Link>
+            </Col>
           </Row>
           <Row>
             <h2>Meals</h2>
           </Row>
-          <Row>
-            <CardGroup>
-              {renderMeals}
-            </CardGroup>
+          <Row xs={1} md={2} lg={3} xl={4} className="g-4">
+            {renderMeals}
           </Row>
           <Row></Row>
         </Stack>

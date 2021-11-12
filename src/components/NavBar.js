@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Image, Navbar, Nav } from 'react-bootstrap';
+import { Container, Navbar, Nav } from 'react-bootstrap';
 
 const NavBar = () => {
 
@@ -7,11 +7,20 @@ const NavBar = () => {
     <div>
       <Navbar className='navigation' bg='light' expand="lg" sticky="top">
           <Container>
-            <Image src="JacquelynKPhotography_LovelyNutritionLogo_BLACK.png" fluid style={{height: '5rem'}} />
+            <Navbar.Brand href="/">
+              <img
+                src="JacquelynKPhotography_LovelyNutritionLogo_BLACK.png"
+                height="80rem"
+                className="d-inline-block align-top"
+                alt="Lovely Nutrition Logo"
+              />
+            </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
             <Nav >
                 <Nav.Link href="/">Home</Nav.Link>
+                <Nav.Link href="/meals/new">Add Meal</Nav.Link>
+                <Nav.Link href="/goal/edit">Set Exchange Goal</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
