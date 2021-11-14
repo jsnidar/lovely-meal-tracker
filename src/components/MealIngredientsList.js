@@ -11,7 +11,6 @@ const MealIngredientsList = ({ mealIngredients }) => {
   const quantity = (new Fraction(decimalValue).toString())
   let pluralize = require('pluralize')
   
-  console.log(decimalValue)
   let unit = ing.ingredient.portion_unit
   if (unit === 'cup' && decimalValue > 1) {
     unit = pluralize(unit, decimalValue)

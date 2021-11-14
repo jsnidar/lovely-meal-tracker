@@ -11,8 +11,6 @@ const IngredientsDropdown = ({ ingredientId, ingredients, handleIngredientSelect
       value={ingredient.id}
     >{dropDownText}</option>
   })
-  console.log('ing id ', ingredientId)
-  console.log('ingredients', ingredients)
   return (
     <Form.Group className="mb-3" controlId="formIngredient">
       <Form.Select defaultValue={ingredientId ? ingredientId : 0 } onChange={handleIngredientSelect} aria-label="Ingredients">

@@ -10,7 +10,8 @@ const AddIngredient = ({ ingredients, mealIngredient, listId, handleUpdateIngred
     mealIngredient.listId ? {
       listId: mealIngredient.listId, 
       ingredient_id: mealIngredient.ingredient_id,
-      quantity: mealIngredient.quantity
+      quantity: mealIngredient.quantity,
+      macro: mealIngredient.macro
     } : {listId: listId}
   )
 
@@ -22,12 +23,14 @@ const AddIngredient = ({ ingredients, mealIngredient, listId, handleUpdateIngred
   }
 
   const handleMacroSelect = (e) => {
+    // setIngredient({...ingredient, macro: e.target.value})
     setMacro(e.target.value)
   }
 
   const handleQuantityChange = (e) => {
-    setIngredient({...ingredient, quantity: e.target.value})
-    handleUpdateIngredient({...ingredient, quantity: e.target.value})
+    debugger
+    setIngredient({...ingredient, quantity: parseInt(e.target.value)})
+    // handleUpdateIngredient({...ingredient, quantity: parseInt(e.target.value)})
   }
   
   return (

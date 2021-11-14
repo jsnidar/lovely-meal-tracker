@@ -3,27 +3,32 @@ import { useState } from 'react';
 import AddIngredient from './AddIngredient';
 import { Button, Container, Col, Row } from 'react-bootstrap';
 
-const FormIngredients = ({ ingredients, setFormData, formData }) => {
+const FormIngredients = ({ id, ingredients, removeIngredient, updateIngredient, formData }) => {
 
   const [mealIngredients, setMealIngredients] = useState([])
   const [listId, setListId] = useState(1)
 
   useEffect (() => {
+    if(id) {
       let mimickId = 1
       const fetchedMealIngredients = []
       formData.meal_ingredients.forEach( meal_ingredient => {
+        debugger
+        const updatedMacro = meal_ingredient.macro ? meal_ingredient.macro : meal_ingredient.ingredient.macro
+  
         fetchedMealIngredients.push({
             listId: mimickId, 
             ingredient_id: meal_ingredient.ingredient_id,
             quantity: meal_ingredient.quantity, 
-            macro: meal_ingredient.ingredient.macro 
-          })
+            macro: updatedMacro 
+        })
+  
         mimickId++
         setMealIngredients(fetchedMealIngredients)
         setListId(mimickId)
       })
-
-  }, [formData.meal_ingredients])
+    }
+  }, [id, formData.meal_ingredients])
 
   const handleAddIngredient = (e) => {
     setMealIngredients(
@@ -42,18 +47,23 @@ const FormIngredients = ({ ingredients, setFormData, formData }) => {
       }
       return ingredient
     })
-    setFormData({...formData, meal_ingredients: updatedIngredients})
+    updateIngredient(updatedIngredients)
   }
 
   const handleRemoveIngredient = (ingredientObj) => {
     const updatedIngredients = mealIngredients.filter((ingredient) => ingredient.listId !== ingredientObj.listId)
-    setMealIngredients(updatedIngredients)
-    setFormData({...formData, meal_ingredients: updatedIngredients})
+    removeIngredient(updatedIngredients)
   }
 
   let renderIngredients = mealIngredients.map ( mealIngredient => {
     
-    return <AddIngredient key={mealIngredient.listId} mealIngredient={mealIngredient} ingredients={ingredients} listId={listId - 1} handleUpdateIngredient={handleUpdateIngredient} handleRemoveIngredient={handleRemoveIngredient} />
+    return <AddIngredient
+     key={mealIngredient.listId} 
+     mealIngredient={mealIngredient} 
+     ingredients={ingredients} 
+     listId={listId - 1} 
+     handleUpdateIngredient={handleUpdateIngredient} 
+     handleRemoveIngredient={handleRemoveIngredient} />
   })
 
     return (

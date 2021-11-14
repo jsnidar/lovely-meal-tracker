@@ -16,15 +16,12 @@ const ExchangesGoalForm = ({ goal, updateGoal }) => {
 
   const handleExhangeGoalSubmit = (e) => {
     e.preventDefault()
-    console.log('is it working?')
     updateGoal(exchangesGoalFormData)
     navigate('/');
   }
 
   const totalCarbs = parseInt(exchangesGoalFormData.starch) + parseInt(exchangesGoalFormData.fruit)
   
-  console.log(exchangesGoalFormData)
-
   return (
     <Container>
       <Form>
@@ -94,7 +91,7 @@ const ExchangesGoalForm = ({ goal, updateGoal }) => {
             </Form.Group>
           </Col>
         </Row>
-        <Button type='submit' onClick={e => handleExhangeGoalSubmit(e)}>Save Goal</Button>
+        <Button variant='warning' type='submit' onClick={e => handleExhangeGoalSubmit(e)}>Save Goal</Button>
       </Form>
     </Container>
   )
