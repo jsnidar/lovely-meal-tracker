@@ -3,26 +3,27 @@ import { useState } from 'react';
 import AddIngredient from './AddIngredient';
 import { Button, Container, Col, Row } from 'react-bootstrap';
 
-const FormIngredients = ({ ingredients, setFormData, formData }) => {
+const FormIngredients = ({ ingredients, updateIngredient, removeIngredient, formData }) => {
 
   const [mealIngredients, setMealIngredients] = useState([])
   const [listId, setListId] = useState(1)
 
   useEffect (() => {
-      let mimickId = 1
-      const fetchedMealIngredients = []
-      formData.meal_ingredients.forEach( meal_ingredient => {
-        const mealMacro = ingredients.find(ingredient => ingredient.id === meal_ingredient.ingredient_id).macro
-        fetchedMealIngredients.push({
-            listId: mimickId, 
-            ingredient_id: meal_ingredient.ingredient_id,
-            quantity: meal_ingredient.quantity, 
-            macro: mealMacro
-          })
-        mimickId++
-        setMealIngredients(fetchedMealIngredients)
-        setListId(mimickId)
-      })
+    debugger
+    let mimickId = 1
+    const fetchedMealIngredients = []
+    formData.meal_ingredients.forEach( meal_ingredient => {
+      const mealMacro = ingredients.find(ingredient => ingredient.id === meal_ingredient.ingredient_id).macro
+      fetchedMealIngredients.push({
+          listId: mimickId, 
+          ingredient_id: meal_ingredient.ingredient_id,
+          quantity: meal_ingredient.quantity, 
+          macro: mealMacro
+        })
+      mimickId++
+      setMealIngredients(fetchedMealIngredients)
+      setListId(mimickId)
+    })
 
   }, [ingredients, formData.meal_ingredients])
 
@@ -43,14 +44,13 @@ const FormIngredients = ({ ingredients, setFormData, formData }) => {
       }
       return ingredient
     })
-    debugger
-    setFormData({...formData, meal_ingredients: updatedIngredients})
+    updateIngredient(updatedIngredients)
   }
 
   const handleRemoveIngredient = (ingredientObj) => {
     const updatedIngredients = mealIngredients.filter((ingredient) => ingredient.listId !== ingredientObj.listId)
     setMealIngredients(updatedIngredients)
-    setFormData({...formData, meal_ingredients: updatedIngredients})
+    removeIngredient(updatedIngredients)
   }
 
   let renderIngredients = mealIngredients.map ( mealIngredient => {

@@ -32,7 +32,7 @@ const AddIngredient = ({ ingredients, mealIngredient, listId, handleUpdateIngred
       handleUpdateIngredient({...ingredient, quantity: updatedQuantity})
     }
   }
-  
+
   const decreaseQuantity = () => {
     if(mealIngredient.macro) {
       const updatedQuantity = ingredient.quantity > 0 ? ingredient.quantity -1 : ingredient.quantity

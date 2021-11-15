@@ -19,10 +19,21 @@ const AddMealForm = ({ categories, ingredients, addMeal, updateMeal }) => {
   const navigate = useNavigate()
 
   useEffect(() => {
+    setFormData({
+      name: '',
+      description: "",
+      image: "",
+      category_id: 0,
+      meal_ingredients: [],
+      id: null
+    })
+
     if(id) {
-      fetch(`http://localhost:9292/meals/${id}`)
+      const updatedId = parseInt(id, 10)
+      fetch(`http://localhost:9292/meals/${updatedId}`)
       .then(r => r.json())
-      .then(meal => setFormData({
+      .then(meal =>
+        setFormData({
         name: meal.name,
         description: meal.description,
         image: meal.image,
@@ -33,6 +44,14 @@ const AddMealForm = ({ categories, ingredients, addMeal, updateMeal }) => {
     }
   }, [id])
 
+  const updateIngredient = (updatedIngredients) => {
+    setFormData({...formData, meal_ingredients: updatedIngredients})
+  }
+  
+  const removeIngredient = (updatedIngredients) => {
+    setFormData({...formData, meal_ingredients: updatedIngredients})
+  }
+  
   const handleSaveMeal = (e, id) => {
     e.preventDefault()
     id ? updateMeal(formData) : addMeal(formData)
@@ -81,7 +100,7 @@ const AddMealForm = ({ categories, ingredients, addMeal, updateMeal }) => {
           </FloatingLabel>
           <br></br>
           <FormIngredients 
-            setFormData={setFormData} 
+            updateIngredient={updateIngredient} 
             formData={formData} 
             ingredients={ingredients} 
           />
