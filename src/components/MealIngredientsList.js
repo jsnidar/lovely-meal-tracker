@@ -17,7 +17,7 @@ const MealIngredientsList = ({ mealIngredients }) => {
   }
 
   return <ListGroup.Item key={ing.id}>
-    {quantity} {unit === 'each' ? "" : unit} {unit === 'each' ? pluralize(ing.ingredient.name, decimalValue): ing.ingredient.name}
+    {quantity} {unit === 'each' ? "" : unit} {unit === 'each'&& decimalValue > 1 ? pluralize(ing.ingredient.name, decimalValue): ing.ingredient.name}
   </ListGroup.Item>
   })
   return (

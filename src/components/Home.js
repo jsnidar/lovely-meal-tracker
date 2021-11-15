@@ -25,7 +25,7 @@ const Home = (
 
   const renderGoal = <Container>
     <Stack gap={3}>
-      <h2>Daily Exchanges Goal</h2>
+      <h2>Exchanges Goal</h2>
       <ul>
         <li>Protein: {goal.protein !== 0 ? goal.protein : 'none'}</li>
         <li>Fat: {goal.fat !== 0 ? goal.fat : 'none'}</li>

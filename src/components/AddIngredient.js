@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import IngredientsDropdown from './IngredientsDropdown';
 import MacrosDropdown from './MacrosDropdown';
-import { Row, Col, Form, Button } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 
 const AddIngredient = ({ ingredients, mealIngredient, listId, handleUpdateIngredient, handleRemoveIngredient }) => {
   const [macro, setMacro] = useState(mealIngredient.macro ? mealIngredient.macro : '')
@@ -10,8 +10,7 @@ const AddIngredient = ({ ingredients, mealIngredient, listId, handleUpdateIngred
     mealIngredient.listId ? {
       listId: mealIngredient.listId, 
       ingredient_id: mealIngredient.ingredient_id,
-      quantity: mealIngredient.quantity,
-      macro: mealIngredient.macro
+      quantity: mealIngredient.quantity ? mealIngredient.quantity : 1
     } : {listId: listId}
   )
 
@@ -23,15 +22,26 @@ const AddIngredient = ({ ingredients, mealIngredient, listId, handleUpdateIngred
   }
 
   const handleMacroSelect = (e) => {
-    // setIngredient({...ingredient, macro: e.target.value})
     setMacro(e.target.value)
   }
 
-  const handleQuantityChange = (e) => {
-    debugger
-    setIngredient({...ingredient, quantity: parseInt(e.target.value)})
-    // handleUpdateIngredient({...ingredient, quantity: parseInt(e.target.value)})
+  const increaseQuantity = () => {
+    if(mealIngredient.macro) {
+      const updatedQuantity = ingredient.quantity + 1
+      setIngredient({...ingredient, quantity: updatedQuantity})
+      handleUpdateIngredient({...ingredient, quantity: updatedQuantity})
+    }
   }
+  
+  const decreaseQuantity = () => {
+    if(mealIngredient.macro) {
+      const updatedQuantity = ingredient.quantity > 0 ? ingredient.quantity -1 : ingredient.quantity
+      setIngredient({...ingredient, quantity: updatedQuantity})
+      handleUpdateIngredient({...ingredient, quantity: updatedQuantity})
+    }
+  }
+
+  const displayQuantity = `  ${ingredient.quantity}  `
   
   return (
     <Row>
@@ -42,12 +52,12 @@ const AddIngredient = ({ ingredients, mealIngredient, listId, handleUpdateIngred
         <IngredientsDropdown ingredientId={ingredient.ingredient_id} handleIngredientSelect={handleIngredientSelect} ingredients={ingredientList} />
       </Col>
       <Col>
-        <Form.Group className="mb-3" controlId="formIngredientQuantity">
-          <Form.Control type="number" defaultValue={mealIngredient.quantity ? mealIngredient.quantity : 1} onChange={handleQuantityChange} placeholder="Enter quantity" />
-        </Form.Group>
+        <Button onClick={decreaseQuantity} variant='outline-dark'>-</Button>
+          {displayQuantity}
+        <Button onClick={increaseQuantity} variant='outline-dark'>+</Button>
       </Col>
       <Col xs={1}>
-        <Button onClick={e => handleRemoveIngredient(ingredient)}variant='outline-dark'>x</Button>
+        <Button onClick={e => handleRemoveIngredient(ingredient)} variant='outline-dark'>x</Button>
       </Col>
     </Row>
   )

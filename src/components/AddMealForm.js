@@ -5,6 +5,7 @@ import FormIngredients from './FormIngredients';
 
 const AddMealForm = ({ categories, ingredients, addMeal, updateMeal }) => {
   
+  
   const [formData, setFormData] = useState({
     name: '',
     description: "",
@@ -32,19 +33,10 @@ const AddMealForm = ({ categories, ingredients, addMeal, updateMeal }) => {
     }
   }, [id])
 
-  
-
-  const updateIngredient = (updatedIngredients) => {
-    setFormData({...formData, meal_ingredients: updatedIngredients})
-  }
-
-  const removeIngredient = (updatedIngredients) => {
-    setFormData({...formData, meal_ingredients: updatedIngredients})
-  }
-
   const handleSaveMeal = (e, id) => {
     e.preventDefault()
     id ? updateMeal(formData) : addMeal(formData)
+    debugger
     setFormData({
       name: '',
       description: "",
@@ -53,11 +45,13 @@ const AddMealForm = ({ categories, ingredients, addMeal, updateMeal }) => {
       meal_ingredients: [],
       id: null
     })
+    
     navigate('/')
   }
 
   const renderCategories = categories.map(category => <option key={category.id} value={category.id}>{category.name[0].toUpperCase() + category.name.slice(1)}</option>)
 
+  console.log('formData: ', formData)
   return (
     <Container>
       <Stack gap={3}>
@@ -87,11 +81,9 @@ const AddMealForm = ({ categories, ingredients, addMeal, updateMeal }) => {
           </FloatingLabel>
           <br></br>
           <FormIngredients 
-            id={id}
+            setFormData={setFormData} 
             formData={formData} 
-            ingredients={ingredients}
-            updateIngredient={updateIngredient}
-            removeIngredient={removeIngredient}
+            ingredients={ingredients} 
           />
           <br></br>
           <Button type='submit' variant='warning' onClick={e => handleSaveMeal(e, formData.id)}>Save Meal</Button>

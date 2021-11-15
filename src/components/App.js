@@ -55,7 +55,7 @@ function App() {
   }, [meals])
 
   const updateMeal = (formData) => {
-    console.log(formData)
+    debugger
     fetch('http://localhost:9292/meals/' + formData.id, {
       method: 'PATCH',
       headers: {
@@ -74,7 +74,7 @@ function App() {
   
   const addMeal = (formData) => {
     const mealIngs = new Map()
-    formData.meal_ingredients.forEach(mealIng => mealIngs.set(mealIng.ingredient_id.toString(), parseInt(mealIng.portion_quantity)))
+    formData.meal_ingredients.forEach(mealIng => mealIngs.set(mealIng.ingredient_id.toString(), parseInt(mealIng.quantity)))
 
     const mapToObj = m => {
       return Array.from(m).reduce((obj, [key, value]) => {
@@ -84,7 +84,7 @@ function App() {
     };
 
     const updatedFormData = {...formData, meal_ingredients: mapToObj(mealIngs)}
-
+    debugger
     fetch('http://localhost:9292/meals', {
       method: 'POST', 
       headers: {
