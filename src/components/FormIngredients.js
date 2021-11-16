@@ -53,10 +53,15 @@ const FormIngredients = ({ ingredients, updateIngredient, removeIngredient, form
     removeIngredient(updatedIngredients)
   }
 
-  let renderIngredients = mealIngredients.map ( mealIngredient => {
-    
-    return <AddIngredient key={mealIngredient.listId} mealIngredient={mealIngredient} ingredients={ingredients} listId={listId - 1} handleUpdateIngredient={handleUpdateIngredient} handleRemoveIngredient={handleRemoveIngredient} />
-  })
+  let renderIngredients = mealIngredients.map(mealIngredient => <AddIngredient 
+      key={mealIngredient.listId} 
+      mealIngredient={mealIngredient} 
+      ingredients={ingredients} 
+      listId={listId - 1} 
+      handleUpdateIngredient={handleUpdateIngredient} 
+      handleRemoveIngredient={handleRemoveIngredient} 
+    />
+  )
 
     return (
     <Container>
