@@ -3,31 +3,31 @@ import IngredientsDropdown from './IngredientsDropdown';
 import MacrosDropdown from './MacrosDropdown';
 import { Row, Col, Button } from 'react-bootstrap';
 
-const AddIngredient = ({ ingredients, mealIngredient, handleUpdateIngredient, handleRemoveIngredient }) => {
+const AddIngredient = ({ ingredients, mealIngredient, updateIngredient, removeIngredient }) => {
   const macros = [...new Set(ingredients.map(ingredient => ingredient.macro))]
   
-  const ingredientList = ingredients.filter(ingredient => ingredient.macro === mealIngredient.macro)
+  const ingredientList = ingredients.filter(ingredient => ingredient.macro === mealIngredient.ingredient.macro)
 
-  const handleMacroSelect = (e) => {
-    handleUpdateIngredient({...mealIngredient, macro: e.target.value})
+  const selectMacro = (e) => {
+    updateIngredient({...mealIngredient, macro: e.target.value})
   }
 
   const handleIngredientSelect = (e) => {
     const ingId = parseInt(e.target.value)
-    handleUpdateIngredient({...mealIngredient, ingredient_id: ingId})
+    updateIngredient({...mealIngredient, ingredient_id: ingId})
   }
 
   const increaseQuantity = () => {
     if(mealIngredient.macro) {
       const updatedQuantity = mealIngredient.quantity + 1
-      handleUpdateIngredient({...mealIngredient, quantity: updatedQuantity})
+      updateIngredient({...mealIngredient, quantity: updatedQuantity})
     }
   }
 
   const decreaseQuantity = () => {
     if(mealIngredient.macro) {
       const updatedQuantity = mealIngredient.quantity > 0 ? mealIngredient.quantity -1 : mealIngredient.quantity
-      handleUpdateIngredient({...mealIngredient, quantity: updatedQuantity})
+      updateIngredient({...mealIngredient, quantity: updatedQuantity})
     }
   }
 
@@ -38,13 +38,13 @@ const AddIngredient = ({ ingredients, mealIngredient, handleUpdateIngredient, ha
       <Col>
         <MacrosDropdown 
           macros={macros} 
-          macro={mealIngredient.macro}
-          handleMacroSelect={handleMacroSelect}
+          macro={mealIngredient.ingredient ? mealIngredient.ingredient.macro : mealIngredient.macro}
+          selectMacro={selectMacro}
         />
       </Col>
       <Col>
         <IngredientsDropdown 
-          ingredientId={mealIngredient.ingredient_id} 
+          ingredient={mealIngredient.ingredient}
           handleIngredientSelect={handleIngredientSelect} 
           ingredients={ingredientList} 
         />
@@ -56,7 +56,7 @@ const AddIngredient = ({ ingredients, mealIngredient, handleUpdateIngredient, ha
       </Col>
       <Col xs={1}>
         <Button 
-          onClick={e => handleRemoveIngredient(mealIngredient)} 
+          onClick={e => removeIngredient(mealIngredient)} 
           variant='outline-dark'
         >x</Button>
       </Col>

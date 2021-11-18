@@ -1,11 +1,11 @@
 import { React, useState, useEffect } from 'react';
-import { Stack, Form, Button, FloatingLabel, Container } from 'react-bootstrap'
+import { Stack, Row, Col, Form, Button, FloatingLabel, Container } from 'react-bootstrap'
 import { useParams, useNavigate } from 'react-router-dom';
-import FormIngredients from './FormIngredients';
+import AddIngredient from './AddIngredient';
 
-const AddMealForm = ({ categories, ingredients, addMeal, updateMeal }) => {
+const AddMealForm = ({ categories, addMeal, updateMeal }) => {
   
-  
+  const [listId, setListId] = useState(1)
   const [formData, setFormData] = useState({
     name: '',
     description: "",
@@ -14,33 +14,56 @@ const AddMealForm = ({ categories, ingredients, addMeal, updateMeal }) => {
     meal_ingredients: [],
     id: null
   })
+  const [ ingredients, setIngredients ] = useState([])
 
   const { id } = useParams()
   const navigate = useNavigate()
 
   useEffect(() => {
-
+    
     if(id) {
       const updatedId = parseInt(id, 10)
+      let initialListId = 0
+
+      fetch('http://localhost:9292/ingredients')
+      .then(r => r.json())
+      .then(ingredients => setIngredients(ingredients))
+
       fetch(`http://localhost:9292/meals/${updatedId}`)
       .then(r => r.json())
-      .then(meal =>
+      .then(meal => {
+        const mealIngredientsWithListIds = meal.meal_ingredients.map(mealIngredient => {
+          initialListId++
+          return {...mealIngredient, listId: initialListId}
+        })
+
         setFormData({
         name: meal.name,
         description: meal.description,
         image: meal.image,
         category_id: meal.category_id,
-        meal_ingredients: meal.meal_ingredients,
-        id: meal.id
-      }))
+        meal_ingredients: mealIngredientsWithListIds, 
+        id: meal.id,
+        })
+
+        setListId(initialListId)
+
+      }) 
     }
   }, [id])
 
-  const updateIngredient = (updatedIngredients) => {
+  const updateIngredient = (ingredientObj) => {
+    const updatedIngredients = formData.meal_ingredients.map((ingredient) => {
+      if (ingredient.listId === ingredientObj.listId) {
+        return ingredientObj
+      }
+      return ingredient
+    })
     setFormData({...formData, meal_ingredients: updatedIngredients})
   }
   
-  const removeIngredient = (updatedIngredients) => {
+  const removeIngredient = (ingredientObj) => {
+    const updatedIngredients = formData.meal_ingredients.filter((ingredient) => ingredient.listId !== ingredientObj.listId)
     setFormData({...formData, meal_ingredients: updatedIngredients})
   }
 
@@ -58,13 +81,32 @@ const AddMealForm = ({ categories, ingredients, addMeal, updateMeal }) => {
     
     navigate('/')
   }
+  
+  const handleAddIngredient = () => {
 
+    setFormData({...formData, meal_ingredients: [...formData.meal_ingredients, {
+        listId: listId, 
+        ingredient_id: 0, 
+        quantity: 0, 
+        macro: ''}]})
+    setListId(listId + 1)
+  }
+
+  const renderIngredients = ingredients.length > 0 ? formData.meal_ingredients.map(mealIngredient => <AddIngredient 
+    key={mealIngredient.listId} 
+    mealIngredient={mealIngredient} 
+    ingredients={ingredients} 
+    listId={listId - 1} 
+    updateIngredient={updateIngredient} 
+    removeIngredient={removeIngredient} 
+  />) : undefined
 
   const renderCategories = categories.map(category => {
     const formattedName = category.name[0].toUpperCase() + category.name.slice(1)
     return <option key={category.id} value={category.id}>{formattedName}</option>
   })
 
+  console.log(formData)
   return (
     <Container>
       <Stack gap={3}>
@@ -104,12 +146,20 @@ const AddMealForm = ({ categories, ingredients, addMeal, updateMeal }) => {
             </Form.Select>
           </FloatingLabel>
           <br></br>
-          <FormIngredients 
-            updateIngredient={updateIngredient} 
-            formData={formData} 
-            ingredients={ingredients}
-            removeIngredient={removeIngredient}
-          />
+          <Row>
+            <Col>Macros</Col>
+            <Col>Ingredients</Col>
+            <Col>Quantity</Col>
+            <Col xs={1}></Col>
+          </Row>
+          <Row>
+            <br></br>
+          </Row>
+            {renderIngredients ? renderIngredients : null}
+          <Row>
+            <br></br>
+            <Button variant='warning' onClick={handleAddIngredient}>Add Ingredient</Button>
+          </Row>
           <br></br>
           <Button type='submit' variant='warning' onClick={e => handleSaveMeal(e, formData.id)}>Save Meal</Button>
         </Form>

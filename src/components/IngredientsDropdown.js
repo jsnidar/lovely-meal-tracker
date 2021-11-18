@@ -1,9 +1,8 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
 
-const IngredientsDropdown = ({ ingredientId, ingredients, handleIngredientSelect }) => {
-
-
+const IngredientsDropdown = ({ ingredient, ingredients, handleIngredientSelect }) => {
+  
   const renderIngredients = ingredients.map( ingredient => {
     const Fraction = require('fractional').Fraction
     const decimalValue = +(ingredient.portion_quantity).toPrecision(2)
@@ -20,10 +19,10 @@ const IngredientsDropdown = ({ ingredientId, ingredients, handleIngredientSelect
       value={ingredient.id}
     >{dropDownText}</option>
   })
-  
+
   return (
     <Form.Group className="mb-3" controlId="formIngredient">
-      <Form.Select defaultValue={ingredientId ? ingredientId : 0 } onChange={handleIngredientSelect} aria-label="Ingredients">
+      <Form.Select defaultValue={ingredient.id ? ingredient.id : 0} onChange={handleIngredientSelect} aria-label="Ingredients">
         <option>Select an ingredient</option>
         {renderIngredients}
       </Form.Select>
