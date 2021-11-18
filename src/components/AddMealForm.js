@@ -106,7 +106,6 @@ const AddMealForm = ({ categories, addMeal, updateMeal }) => {
     return <option key={category.id} value={category.id}>{formattedName}</option>
   })
 
-  console.log(formData)
   return (
     <Container>
       <Stack gap={3}>
