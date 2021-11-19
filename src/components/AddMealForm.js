@@ -5,6 +5,7 @@ import AddIngredient from './AddIngredient';
 
 const AddMealForm = ({ categories, addMeal, updateMeal }) => {
   
+  const [ ingredients, setIngredients ] = useState([])
   const [listId, setListId] = useState(1)
   const [formData, setFormData] = useState({
     name: '',
@@ -14,20 +15,19 @@ const AddMealForm = ({ categories, addMeal, updateMeal }) => {
     meal_ingredients: [],
     id: null
   })
-  const [ ingredients, setIngredients ] = useState([])
 
   const { id } = useParams()
   const navigate = useNavigate()
 
   useEffect(() => {
     
+    fetch('http://localhost:9292/ingredients')
+      .then(r => r.json())
+      .then(ingredients => setIngredients(ingredients))
+
     if(id) {
       const updatedId = parseInt(id, 10)
       let initialListId = 0
-
-      fetch('http://localhost:9292/ingredients')
-      .then(r => r.json())
-      .then(ingredients => setIngredients(ingredients))
 
       fetch(`http://localhost:9292/meals/${updatedId}`)
       .then(r => r.json())
@@ -82,24 +82,28 @@ const AddMealForm = ({ categories, addMeal, updateMeal }) => {
     navigate('/')
   }
   
-  const handleAddIngredient = () => {
+  const addIngredient = () => {
 
-    setFormData({...formData, meal_ingredients: [...formData.meal_ingredients, {
+    setFormData({...formData, meal_ingredients: [
+      ...formData.meal_ingredients, {
         listId: listId, 
         ingredient_id: 0, 
         quantity: 0, 
-        macro: ''}]})
+        macro: ''
+      }
+    ]})
     setListId(listId + 1)
+
   }
 
-  const renderIngredients = ingredients.length > 0 ? formData.meal_ingredients.map(mealIngredient => <AddIngredient 
+  const renderIngredients = formData.meal_ingredients.map(mealIngredient => <AddIngredient 
     key={mealIngredient.listId} 
     mealIngredient={mealIngredient} 
     ingredients={ingredients} 
     listId={listId - 1} 
     updateIngredient={updateIngredient} 
     removeIngredient={removeIngredient} 
-  />) : undefined
+  />)
 
   const renderCategories = categories.map(category => {
     const formattedName = category.name[0].toUpperCase() + category.name.slice(1)
@@ -154,10 +158,13 @@ const AddMealForm = ({ categories, addMeal, updateMeal }) => {
           <Row>
             <br></br>
           </Row>
-            {renderIngredients ? renderIngredients : null}
+            {renderIngredients}
           <Row>
             <br></br>
-            <Button variant='warning' onClick={handleAddIngredient}>Add Ingredient</Button>
+            <Button 
+              variant='warning' 
+              onClick={addIngredient}
+            >Add Ingredient</Button>
           </Row>
           <br></br>
           <Button type='submit' variant='warning' onClick={e => handleSaveMeal(e, formData.id)}>Save Meal</Button>

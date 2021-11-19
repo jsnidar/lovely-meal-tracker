@@ -1,3 +1,34 @@
+# Lovely Nutrition Meal Tracker
+
+## Description
+
+The Lovely Nutrition Meal Tracker is designed to help people using the diabetic exchange list track their meals throughout the day. Users can create, update, and delete meals. They can also set goals for each exchange. 
+
+## Video Demonstration
+
+Click on this <a href='https://drive.google.com/file/d/1PHUPvrqz92z930aM56nNdqW0JHRkiWK5/view?usp=sharing'>link </a> to view a video demonstration of the application.
+
+## Usage
+
+### Create a Meal
+
+### Update a Meal
+
+### Delete a Meal
+
+###  a MeCreateal
+
+## Initial Setup
+
+To use the application you will need to:
+<ol>
+    <li>Open the terminal and navigate to the directory for this application.</li>
+    <li>Run npm install in the terminal.</li>
+    <li>Install json server by running npm i json-server in the terminal.</li>
+    <li>Run json-server --watch db.json --port 3004 in the terminal. This will allow the application to access the data in the db.json file.</li>
+    <li>In another tab in the terminal run npm start. This will open the application.</li>
+</ol>
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

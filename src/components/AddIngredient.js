@@ -4,9 +4,17 @@ import MacrosDropdown from './MacrosDropdown';
 import { Row, Col, Button } from 'react-bootstrap';
 
 const AddIngredient = ({ ingredients, mealIngredient, updateIngredient, removeIngredient }) => {
+
+
   const macros = [...new Set(ingredients.map(ingredient => ingredient.macro))]
   
-  const ingredientList = ingredients.filter(ingredient => ingredient.macro === mealIngredient.ingredient.macro)
+  let ingredientList = []
+  if(mealIngredient.macro){
+    ingredientList = ingredients.filter(ingredient => ingredient.macro === mealIngredient.macro)
+  }else if(mealIngredient.ingredient) {
+    ingredientList = ingredients.filter(ingredient => ingredient.macro === mealIngredient.ingredient.macro)
+  }
+  
 
   const selectMacro = (e) => {
     updateIngredient({...mealIngredient, macro: e.target.value})
@@ -18,14 +26,15 @@ const AddIngredient = ({ ingredients, mealIngredient, updateIngredient, removeIn
   }
 
   const increaseQuantity = () => {
-    if(mealIngredient.macro) {
+    
+    if(mealIngredient.macro || mealIngredient.ingredient.macro) {
       const updatedQuantity = mealIngredient.quantity + 1
       updateIngredient({...mealIngredient, quantity: updatedQuantity})
     }
   }
 
   const decreaseQuantity = () => {
-    if(mealIngredient.macro) {
+    if(mealIngredient.macro || mealIngredient.ingredient.macro) {
       const updatedQuantity = mealIngredient.quantity > 0 ? mealIngredient.quantity -1 : mealIngredient.quantity
       updateIngredient({...mealIngredient, quantity: updatedQuantity})
     }
@@ -46,7 +55,7 @@ const AddIngredient = ({ ingredients, mealIngredient, updateIngredient, removeIn
         <IngredientsDropdown 
           ingredient={mealIngredient.ingredient}
           handleIngredientSelect={handleIngredientSelect} 
-          ingredients={ingredientList} 
+          ingredients={ingredientList.length > 0 ? ingredientList : ingredients} 
         />
       </Col>
       <Col>

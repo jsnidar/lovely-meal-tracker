@@ -1,9 +1,10 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
 
-const IngredientsDropdown = ({ ingredient, ingredients, handleIngredientSelect }) => {
+const IngredientsDropdown = ({ ingredient=0, ingredients, handleIngredientSelect }) => {
   
   const renderIngredients = ingredients.map( ingredient => {
+    
     const Fraction = require('fractional').Fraction
     const decimalValue = +(ingredient.portion_quantity).toPrecision(2)
     const quantity = (new Fraction(decimalValue).toString())
