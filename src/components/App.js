@@ -55,7 +55,6 @@ function App() {
   }, [meals])
 
   const updateMeal = (formData) => {
-    debugger
     fetch('http://localhost:9292/meals/' + formData.id, {
       method: 'PATCH',
       headers: {

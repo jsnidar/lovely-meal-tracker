@@ -12,21 +12,24 @@ Click on this <a href='https://drive.google.com/file/d/1PHUPvrqz92z930aM56nNdqW0
 
 ### Create a Meal
 
+You can create a meal by clicking on the add meal button and completing the form. When the form has been completed, click the save meal button to submit it. This will add the meal to the database and redirect the user to the home page where the meals are displayed.
+
 ### Update a Meal
+
+You can update a meal by clicking on the "Edit" button in a meal card. This will pull up the meal form with the information for that meal loaded. Submit changes by clicking on the save meal button.  This will updated the record in the database and redierect the user to the home page where the meals are displayed. 
 
 ### Delete a Meal
 
-###  a MeCreateal
+Click the delete button on a meal card and it will remove it from the database and the browser.
 
 ## Initial Setup
 
 To use the application you will need to:
 <ol>
+    <li>Open the <a href="https://github.com/jsnidar/phase-3-sinatra-react-project"> backend for this application</a> and follow instructions for getting the server running.</li>
     <li>Open the terminal and navigate to the directory for this application.</li>
     <li>Run npm install in the terminal.</li>
-    <li>Install json server by running npm i json-server in the terminal.</li>
-    <li>Run json-server --watch db.json --port 3004 in the terminal. This will allow the application to access the data in the db.json file.</li>
-    <li>In another tab in the terminal run npm start. This will open the application.</li>
+    <li>In the terminal run npm start. This will open the application.</li>
 </ol>
 
 # Getting Started with Create React App
